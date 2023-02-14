@@ -3,13 +3,15 @@
 namespace App\Controllers;
 
 use Core\View;
+use App\Models\Post;
 use Core\Controller;
 
 class Posts extends Controller
 {
     public function indexAction()
     {
-        View::renderTemplate('Posts/index.html');
+        $posts = Post::getAll();
+        View::renderTemplate('Posts/index.html', compact('posts'));
     }
 
     public function addNewAction()
