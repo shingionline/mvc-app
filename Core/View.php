@@ -2,6 +2,10 @@
 
 namespace Core;
 
+use Exception;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
 class View
 {
     /**
@@ -20,7 +24,7 @@ class View
         if (is_readable($file)) {
             require $file;
         } else {
-            echo "$file not found";
+            throw new Exception("$file not found");
         }
     }
 
@@ -38,8 +42,8 @@ class View
         static $twig = null;
 
         if ($twig === null) {
-            $loader = new \Twig_Loader_Filesystem('../App/Views');
-            $twig = new \Twig_Environment($loader);
+            $loader = new FilesystemLoader('../App/Views');
+            $twig   = new Environment($loader);
         }
 
         echo $twig->render($template, $args);

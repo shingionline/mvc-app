@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Exception;
+
 class Router
 {
     /**
@@ -41,14 +43,14 @@ class Router
                 if (preg_match('/action$/i', $action) == 0) {
                     $controller_object->$action();
                 } else {
-                    throw new \Exception("Method $action in controller $controller cannot be called directly - remove the Action suffix to call this method");
+                    throw new Exception("Method $action in controller $controller cannot be called directly - remove the Action suffix to call this method");
                 }
 
             } else {
-                echo "Controller class $controller not found";
+                throw new Exception("Controller class $controller not found");
             }
         } else {
-            echo 'No route matched.';
+            throw new Exception('No route matched.');
         }
     }
 
