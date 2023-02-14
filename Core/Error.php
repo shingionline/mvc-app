@@ -24,6 +24,14 @@ class Error
      */
     public static function exceptionHandler($exception)
     {
+        // Code is 404 (not found) or 500 (general error)
+        $code = $exception->getCode();
+        if ($code != 404) {
+            $code = 500;
+        }
+
+        http_response_code($code);
+
         if (Config::SHOW_ERRORS == true) {
         echo "<h1>Fatal error</h1>";
         echo "<p>Uncaught exception: '" . get_class($exception) . "'</p>";
@@ -41,9 +49,8 @@ class Error
 
             error_log($message);
 
-            echo "<h1>An error occurred</h1>";
-            echo "<p>Sorry, the page you are looking for could not be found.</p>";
-            echo "<p>Please try again later.</p>";
+            View::renderTemplate("$code.html");
+
         }
     }
 }
